@@ -1,5 +1,5 @@
-
 package com.tienda.controller;
+
 import com.tienda.domain.Categoria;
 import com.tienda.service.CategoriaService;
 import com.tienda.service.impl.FirebaseStorageServiceImpl;
@@ -17,10 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @RequestMapping("/categoria")
 public class CategoriaController {
-    
+
     @Autowired
     private CategoriaService categoriaService;
-    
+
     @Autowired
     private FirebaseStorageServiceImpl firebaseStorageService;
 
@@ -31,23 +31,21 @@ public class CategoriaController {
         model.addAttribute("totalCategorias", categorias.size());
         return "/categoria/listado";
     }
-    
+
     @GetMapping("/nuevo")
     public String categoriaNuevo(Categoria categoria) {
         return "/categoria/modifica";
     }
 
-    
-    
     @PostMapping("/guardar")
     public String categoriaGuardar(Categoria categoria,
-            @RequestParam("imagenFile") MultipartFile imagenFile) {        
+            @RequestParam("imagenFile") MultipartFile imagenFile) {
         if (!imagenFile.isEmpty()) {
             categoriaService.save(categoria);
             categoria.setRutaImagen(
                     firebaseStorageService.cargaImagen(
-                            imagenFile, 
-                            "categoria", 
+                            imagenFile,
+                            "categoria",
                             categoria.getIdCategoria()));
         }
         categoriaService.save(categoria);

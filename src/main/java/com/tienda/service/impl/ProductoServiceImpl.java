@@ -1,4 +1,3 @@
-
 package com.tienda.service.impl;
 
 import com.tienda.dao.ProductoDao;
@@ -10,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class ProductoServiceImpl implements ProductoService{
-    
+public class ProductoServiceImpl implements ProductoService {
+
     @Autowired
     private ProductoDao productoDao;
 
@@ -42,5 +41,27 @@ public class ProductoServiceImpl implements ProductoService{
     public void delete(Producto producto) {
         productoDao.delete(producto);
     }
-    
+
+    @Override
+    public List<Producto> findByPrecioBetweenOrderByDescripcion(double precioInf, double precioSup) {
+        return productoDao.findByPrecioBetweenOrderByDescripcion(precioInf, precioSup);
+    }
+
+    @Override
+    public List<Producto> findByDescripcionContainingIgnoreCase(String texto) {
+        return productoDao.findByDescripcionContainingIgnoreCase(texto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Producto> metodoJPQL(double precioInf, double precioSup) {
+        return productoDao.metodoJPQL(precioInf, precioSup);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Producto> metodoNativo(double precioInf, double precioSup) {
+        return productoDao.metodoNativo(precioInf, precioSup);
+    }
+
 }
